@@ -14,20 +14,13 @@ namespace BackpackProject
             double weightCats = 0;
             double weightDogs = 0;
             double weightRabbits = 0;
-            foreach (var animal in backpack)
+            IEnumerable<double> query =
+                from animal in backpack.OfType<Cat>()
+                select animal.Weight;
+
+            foreach (var weight in query)
             {
-                if (animal.KindOfAnimal == Animal.KindsOfAnimal.Cat)
-                {
-                    weightCats += animal.Weight;
-                }
-                else if (animal.KindOfAnimal == Animal.KindsOfAnimal.Dog)
-                {
-                    weightDogs += animal.Weight;
-                }
-                else
-                {
-                    weightRabbits += animal.Weight;
-                }
+                weightCats += weight;
             }
             Console.WriteLine($"Cats weight = {weightCats}\nDogs weight = {weightDogs}\nRabbits weight = {weightRabbits}");
         }

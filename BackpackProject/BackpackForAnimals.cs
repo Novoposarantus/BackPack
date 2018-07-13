@@ -12,15 +12,7 @@ namespace BackpackProject
         public List<Animal> backpack;
         public BackpackForAnimals(params Animal[] animals)
         {
-            if (animals.Length < 1)
-            {
-                return;
-            }
-            backpack = new List<Animal>();
-            for (var i = 0; i < animals.Length; ++i)
-            {
-                backpack.Add(animals[i]);
-            }
+            backpack = new List<Animal>(animals);
         }
         public Animal this[int index] => backpack[index];
 

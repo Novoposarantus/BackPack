@@ -48,6 +48,7 @@
     <Compile Include="Book.cs" />
     <Compile Include="Cat.cs" />
     <Compile Include="Dog.cs" />
+    <Compile Include="PrintedProduct.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Rabbits.cs" />
