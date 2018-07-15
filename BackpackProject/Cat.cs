@@ -8,7 +8,7 @@ namespace BackpackProject
 {
     class Cat : Animal
     {
-        public Cat(string name, double weight, double ammount = 0.01875) : base("Cat " + name, weight, ammount,KindsOfAnimal.Cat)
+        public Cat(string name, double weight, double ammount = 0.01875) : base("Cat " + name, weight, ammount)
         {
         }
     }

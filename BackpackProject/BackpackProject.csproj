@@ -43,11 +43,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Animal.cs" />
-    <Compile Include="BackpackForAnimals.cs" />
-    <Compile Include="BackpackForPrintedProduct.cs" />
+    <Compile Include="Backpack.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="Cat.cs" />
     <Compile Include="Dog.cs" />
+    <Compile Include="Items.cs" />
     <Compile Include="PrintedProduct.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

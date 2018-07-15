@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace BackpackProject
 {
-    class Book
-    {
+    class Book : PrintedProduct {
+        public Book(string name, uint countOfPages) : base(name, countOfPages) 
+        {
+        }
     }
 }

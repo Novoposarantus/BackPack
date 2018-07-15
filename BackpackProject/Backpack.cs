@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace BackpackProject
 {
-    class BackpackForAnimals : IEnumerable<Animal>
+    class Backpack: IEnumerable<Items>
     {
-        public List<Animal> backpack;
-        public BackpackForAnimals(params Animal[] animals)
+        public List<Items> backpack;
+        public Backpack(params Items[] items)
         {
-            backpack = new List<Animal>(animals);
+            backpack = new List<Items>(items);
         }
-        public Animal this[int index] => backpack[index];
+        public Items this[int index] => backpack[index];
 
-        public IEnumerator<Animal> GetEnumerator()
+        public IEnumerator<Items> GetEnumerator()
         {
             return backpack.GetEnumerator();
         }

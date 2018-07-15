@@ -8,7 +8,7 @@ namespace BackpackProject
 {
     class Rabbit : Animal
     {
-        public Rabbit(string name, double weight, double ammount = 0.00525) : base("Rabbit " + name, weight, ammount,KindsOfAnimal.Rabbit)
+        public Rabbit(string name, double weight, double ammount = 0.00525) : base("Rabbit " + name, weight, ammount)
         {
         }
     }
