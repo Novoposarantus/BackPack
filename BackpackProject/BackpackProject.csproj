@@ -45,6 +45,7 @@
     <Compile Include="Animal.cs" />
     <Compile Include="Backpack.cs" />
     <Compile Include="Book.cs" />
+    <Compile Include="Botels.cs" />
     <Compile Include="Cat.cs" />
     <Compile Include="Dog.cs" />
     <Compile Include="Items.cs" />

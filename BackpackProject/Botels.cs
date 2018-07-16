@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace BackpackProject
 {
-    class Botels
+    class Botels : IWeight
     {
+        public double Weight { get=> 0.2; }
     }
 }
