@@ -6,8 +6,13 @@ using System.Threading.Tasks;
 
 namespace BackpackProject
 {
-    class Botels : IWeight
+    struct Botels : IWeight
     {
-        public double Weight { get=> 0.2; }
+        public double weight;
+        public double Weight { get => weight; set => weight = value; }
+        public Botels(double weight)
+        {
+            this.weight = weight;
+        }
     }
 }

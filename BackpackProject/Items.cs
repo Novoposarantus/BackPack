@@ -6,6 +6,6 @@ using System.Threading.Tasks;
 
 namespace BackpackProject {
     interface IWeight {
-        double Weight { get; }
+        double Weight { get; set; }
     }
 }
