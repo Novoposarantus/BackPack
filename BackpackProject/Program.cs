@@ -18,24 +18,38 @@ namespace BackpackProject
                     case 0:
                         return (IWeight)(new Cat($"{a}", 1));
                     case 1:
-                        return (new Botels(0.2));
+                        return (new Bottle(0.2));
                     case 2:
                         return (new Book($"{a}", 100));
                 }
-                return new Botels(0.3);
+                return new Bottle(0.3);
             });
             double weightDogs = (from dog in backpack.OfType<Dog>() select dog.Weight).Sum(); ;
             double weightRabbits = (from rabbit in backpack.OfType<Rabbit>() select rabbit.Weight).Sum(); ;
             double weightCats = (from cat in backpack.OfType<Cat>() select cat.Weight).Sum();
             double weightBooks = (from book in backpack.OfType<Book>() select book.Weight).Sum();
             double weightAnimals = (from book in backpack.OfType<Animal>() select book.Weight).Sum();
-            double weightBotels = backpack.OfType<Botels>().Select(n => n.Weight).Sum();
+            double weightBotels = backpack.OfType<Bottle>().Select(n => n.Weight).Sum();
             double wieghtPrintedProduct = (from book in backpack.OfType<PrintedProduct>() select book.Weight).Sum();
             double takeWeight = backpack.Take(3).Sum(n=>n.Weight);
             double skipWeight = backpack.Skip(3).Take(2).Sum(n => n.Weight);
             Console.WriteLine($"Dog : {weightDogs}\nRabbit : {weightRabbits}\nCat : {weightCats}\nBook : {weightBooks}\nBotels: {weightBotels}");
             Console.WriteLine($"Weight Animal: {weightAnimals}\nWeight Printed Product : {wieghtPrintedProduct}");
             Console.WriteLine($"Take Weight : {takeWeight}; SkipTake Weight : {skipWeight}");
+            GetDistruction(backpack);
+        }
+        static public void GetDistruction(IEnumerable<IWeight> enumerable)
+        {
+            //(IEnumerable<Cat>, IEnumerable<Botels> , IEnumerable<Book>) cortage;
+            var query =
+            from items in enumerable
+            group items by items.GetType() into g
+            select new { Cats = g.OfType<Cat>(), Bottles = g.OfType<Bottle>() , Books = g.OfType<Book>()};
+            foreach(var grouping in query) { 
+
+            }
+            var bob = ("Bob", 32);
         }
     }
+    
 }

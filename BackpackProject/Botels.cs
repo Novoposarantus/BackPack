@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace BackpackProject
 {
-    struct Botels : IWeight
+    struct Bottle : IWeight
     {
         public double weight;
         public double Weight { get => weight; set => weight = value; }
-        public Botels(double weight)
+        public Bottle(double weight)
         {
             this.weight = weight;
         }
