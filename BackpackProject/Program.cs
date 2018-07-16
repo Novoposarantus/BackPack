@@ -11,14 +11,19 @@ namespace BackpackProject
         static void Main(string[] args)
         {
             //Backpack backpack = new Backpack(new Cat("Rose", 0.5), new Cat("Robin", 1), new Rabbit("Fuzzy", 0.15), new Dog("Garry", 5.5),new Book("C#",1000));
-            List<IWeight> backpack = new List<IWeight>() {
-                new Cat("Rose", 0.5), new Cat("Robin", 1), new Rabbit("Fuzzy", 0.15), new Dog("Garry", 5.5), new Book("C#", 1000),
-                new Book("Garry Potter",500), new Book("Metro",400), new Botels(0.2)
-            };
-            Botels botels;
-            botels.weight = 0.2;
-            backpack.AddRange((Enumerable.Repeat<IWeight>(botels, 10)).ToList<IWeight>());
-            backpack[12].Weight = 2;
+            var backpack = Enumerable.Range(0, 100).Select(a =>
+            {
+                switch (a % 3)
+                {
+                    case 0:
+                        return (IWeight)(new Cat($"{a}", 1));
+                    case 1:
+                        return (new Botels(0.2));
+                    case 2:
+                        return (new Book($"{a}", 100));
+                }
+                return new Botels(0.3);
+            });
             double weightDogs = (from dog in backpack.OfType<Dog>() select dog.Weight).Sum(); ;
             double weightRabbits = (from rabbit in backpack.OfType<Rabbit>() select rabbit.Weight).Sum(); ;
             double weightCats = (from cat in backpack.OfType<Cat>() select cat.Weight).Sum();
