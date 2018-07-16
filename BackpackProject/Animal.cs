@@ -6,18 +6,19 @@ using System.Threading.Tasks;
 
 namespace BackpackProject
 {
-    abstract class Animal : Items
+    abstract class Animal : IWeight
     {
         protected string name;
-        protected double weight;
         protected double amount;
         public string Name => name;
-        public double Weight => weight;
         public double Amount => amount;
+
+        public double Weight { get; set; }
+
         protected Animal(string name,double weight,double amount)
         {
             this.name = name;
-            this.weight = weight;
+            Weight = weight;
             this.amount = amount;
         }
     }

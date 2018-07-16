@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace BackpackProject {
-    abstract class PrintedProduct : Items {
+    abstract class PrintedProduct : IWeight {
         protected string name;
         protected uint countOfPages;
         public string Name => name;
-        public double Weight => countOfPages * 0.0035;
+        public double Weight { get=>countOfPages*0.0035; }
 
         public PrintedProduct(string name, uint countOfPAges) {
             this.name = name;
