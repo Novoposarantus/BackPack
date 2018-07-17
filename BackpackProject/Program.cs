@@ -37,35 +37,33 @@ namespace BackpackProject
             Console.WriteLine($"Weight Animal: {weightAnimals}\nWeight Printed Product : {wieghtPrintedProduct}");
             Console.WriteLine($"Take Weight : {takeWeight}; SkipTake Weight : {skipWeight}");
             (IEnumerable<Cat> cats, IEnumerable<Bottle> bottles, IEnumerable<Book> books) = GetDistruction(backpack);
+            var lisCats = cats.ToList();
+            var listBotteles = bottles.ToList();
+            var listBooks = books.ToList();
         }
         static public Tuple<IEnumerable<Cat>, IEnumerable<Bottle>, IEnumerable<Book>> GetDistruction(IEnumerable<IWeight> enumerable)
         {
-            IEnumerable<Cat> cats;
-            IEnumerable<Bottle> bottles;
-            IEnumerable<Book> books;
+
             var groupingCats =
-            from items in enumerable
-            group items by items.GetType() into grouiping
-            from g in grouiping
-            where (g.GetType() == typeof(Cat))
-            select g as Cat;
-            cats = groupingCats;
+                from items in enumerable
+                group items by items.GetType() into grouping
+                from g in grouping
+                where (g.GetType() == typeof(Cat))
+                select g as Cat;
 
             var groupingBottles =
-            from items in enumerable
-            group items by items.GetType() into grouiping
-            from g in grouiping
-            where (g.GetType() == typeof(Bottle))
-            select g as Bottle;
-            bottles = groupingBottles;
+                from items in enumerable
+                group items by items.GetType() into grouping
+                from g in grouping
+                where (g.GetType() == typeof(Bottle))
+                select g as Bottle;
 
             var groupingBooks =
-            from items in enumerable
-            group items by items.GetType() into grouiping
-            from g in grouiping
-            where (g.GetType() == typeof(Book))
-            select g as Book;
-            books = groupingBooks;
+                from items in enumerable
+                group items by items.GetType() into grouping
+                from g in grouping
+                where (g.GetType() == typeof(Book))
+                select g as Book;
 
             return Tuple.Create(groupingCats, groupingBottles, groupingBooks);
         }
