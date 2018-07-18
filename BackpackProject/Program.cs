@@ -37,35 +37,49 @@ namespace BackpackProject
             Console.WriteLine($"Weight Animal: {weightAnimals}\nWeight Printed Product : {wieghtPrintedProduct}");
             Console.WriteLine($"Take Weight : {takeWeight}; SkipTake Weight : {skipWeight}");
             (IEnumerable<Cat> cats, IEnumerable<Bottle> bottles, IEnumerable<Book> books) = GetDistruction(backpack);
-            var lisCats = cats.ToList();
-            var listBotteles = bottles.ToList();
-            var listBooks = books.ToList();
         }
-        static public Tuple<IEnumerable<Cat>, IEnumerable<Bottle>, IEnumerable<Book>> GetDistruction(IEnumerable<IWeight> enumerable)
+        static public (IEnumerable<Cat>, IEnumerable<Bottle>, IEnumerable<Book>) GetDistruction(IEnumerable<IWeight> enumerable)
         {
+            var group = (from item in enumerable
+                         group item by item.GetType() into grouping
+                         select new { grouping.Key, items = grouping.Select(g => g) }).ToDictionary(e => e.Key, e => e.items);
+            return (group[typeof(Cat)].Cast<Cat>(), group[typeof(Bottle)].Cast<Bottle>(), group[typeof(Book)].Cast<Book>());
+        }
+        static public /*Dictionary<int,IEnumerable<IWeight>>*/ IEnumerable<IWeight>[] GetDistructionWeight(IEnumerable<IWeight> enumerable, int count)
+        {
+            if (count == 0 || count == 1)
+            {
+                return new IEnumerable<IWeight>[1] { enumerable };
+                //var d = new Dictionary<int, IEnumerable<IWeight>>();
+                //d.Add(0, enumerable);
+                //return d;
+            }
+            var numEven = enumerable.Aggregate((min : double.PositiveInfinity, max : 0d), (acc, current) =>
+                                                (current.Weight < acc.min ? current.Weight : acc.min,
+                                                 current.Weight > acc.max ? current.Weight : acc.max));
+            double length = numEven.max - numEven.min;
 
-            var groupingCats =
-                from items in enumerable
-                group items by items.GetType() into grouping
-                from g in grouping
-                where (g.GetType() == typeof(Cat))
-                select g as Cat;
+            int GetRegion(IWeight item)
+            {
+                for (var i = 2; i <= count; ++i)
+                {
+                    if (item.Weight < ((i * length) / count)) return i - 2;
+                }
+                return count - 1;
+            }
 
-            var groupingBottles =
-                from items in enumerable
-                group items by items.GetType() into grouping
-                from g in grouping
-                where (g.GetType() == typeof(Bottle))
-                select g as Bottle;
+            var group = (from item in enumerable
+                     let region = GetRegion(item)
+                     group item by region into grouping
+                     select new { grouping.Key, items = grouping.Select(g => g) }).ToDictionary(e => e.Key, e => e.items);
 
-            var groupingBooks =
-                from items in enumerable
-                group items by items.GetType() into grouping
-                from g in grouping
-                where (g.GetType() == typeof(Book))
-                select g as Book;
-
-            return Tuple.Create(groupingCats, groupingBottles, groupingBooks);
+            var arr = new IEnumerable<IWeight>[count];
+            for (var i = 0; i < count; ++i)
+            {
+                arr[i] = group[i];
+            }
+            return arr;
+            //return group;
         }
     }
     
