@@ -95,11 +95,6 @@ namespace BackpackProject
             }
 
             var arr = new IEnumerable<IWeight>[countGroups];
-            //for (var i = 0; i < count - 1; ++i)
-            //{
-            //    arr[i] = enumerable.Skip(i*(enumerable.Count()/count)).Take(enumerable.Count() / count);
-            //}
-            //arr[count - 1] = enumerable.Skip((count - 1) * (enumerable.Count() / count));
             return  (from item in enumerable.Select((item, i) => new {item, i})
                          group item.item by Math.Min(item.i/(enumerable.Count()/countGroups),countGroups-1) into grouping
                          select grouping);
