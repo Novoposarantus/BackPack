@@ -37,6 +37,7 @@ namespace BackpackProject
             Console.WriteLine($"Weight Animal: {weightAnimals}\nWeight Printed Product : {wieghtPrintedProduct}");
             Console.WriteLine($"Take Weight : {takeWeight}; SkipTake Weight : {skipWeight}");
             (IEnumerable<Cat> cats, IEnumerable<Bottle> bottles, IEnumerable<Book> books) = GetDistruction(backpack);
+            var e = GetDistructionWeight(backpack, 3);
         }
         static public (IEnumerable<Cat>, IEnumerable<Bottle>, IEnumerable<Book>) GetDistruction(IEnumerable<IWeight> enumerable)
         {
@@ -45,25 +46,23 @@ namespace BackpackProject
                          select new { grouping.Key, items = grouping.Select(g => g) }).ToDictionary(e => e.Key, e => e.items);
             return (group[typeof(Cat)].Cast<Cat>(), group[typeof(Bottle)].Cast<Bottle>(), group[typeof(Book)].Cast<Book>());
         }
-        static public /*Dictionary<int,IEnumerable<IWeight>>*/ IEnumerable<IWeight>[] GetDistructionWeight(IEnumerable<IWeight> enumerable, int count)
+        static public IEnumerable<IWeight>[] GetDistructionWeight(IEnumerable<IWeight> enumerable, int count)
         {
             if (count == 0 || count == 1)
             {
                 return new IEnumerable<IWeight>[1] { enumerable };
-                //var d = new Dictionary<int, IEnumerable<IWeight>>();
-                //d.Add(0, enumerable);
-                //return d;
             }
             var numEven = enumerable.Aggregate((min : double.PositiveInfinity, max : 0d), (acc, current) =>
                                                 (current.Weight < acc.min ? current.Weight : acc.min,
                                                  current.Weight > acc.max ? current.Weight : acc.max));
-            double length = numEven.max - numEven.min;
+            double length = (numEven.max - numEven.min)/count;
 
             int GetRegion(IWeight item)
             {
-                for (var i = 2; i <= count; ++i)
+                double min = numEven.min + length;
+                for (var i = 1; i <= count; ++i, min += length)
                 {
-                    if (item.Weight < ((i * length) / count)) return i - 2;
+                    if (item.Weight < min) return i - 1;
                 }
                 return count - 1;
             }
@@ -76,10 +75,15 @@ namespace BackpackProject
             var arr = new IEnumerable<IWeight>[count];
             for (var i = 0; i < count; ++i)
             {
-                arr[i] = group[i];
+                if (group.ContainsKey(i))
+                {
+                    arr[i] = group[i];
+                }else
+                {
+                    arr[i] = null;
+                }
             }
             return arr;
-            //return group;
         }
     }
     
