@@ -47,17 +47,19 @@ namespace BackpackProject
                          select new { grouping.Key, items = grouping.Select(g => g) }).ToDictionary(e => e.Key, e => e.items);
             return (group[typeof(Cat)].Cast<Cat>(), group[typeof(Bottle)].Cast<Bottle>(), group[typeof(Book)].Cast<Book>());
         }
-        static public IEnumerable<IWeight>[] GetGroupByWeight(IEnumerable<IWeight> enumerable, int count)
+        static public Dictionary<int,IEnumerable<IWeight>> GetGroupByWeight(IEnumerable<IWeight> enumerable, int count)
         {
             if (count == 0 || count == 1)
             {
-                return new IEnumerable<IWeight>[1] { enumerable };
+                var d = new Dictionary<int, IEnumerable<IWeight>>();
+                d.Add(0, enumerable);
+                return d;
             }
 
-            var numEven = enumerable.Aggregate((min : double.PositiveInfinity, max : 0d), (acc, current) =>
-                                                (current.Weight < acc.min ? current.Weight : acc.min,
-                                                 current.Weight > acc.max ? current.Weight : acc.max));
-            double length = (numEven.max - numEven.min)/count;
+            var numEven = enumerable.Aggregate((min: double.PositiveInfinity, max: 0d), (acc, current) =>
+                                              (current.Weight < acc.min ? current.Weight : acc.min,
+                                               current.Weight > acc.max ? current.Weight : acc.max));
+            double length = (numEven.max - numEven.min) / count;
 
             int GetRegion(IWeight item)
             {
@@ -70,22 +72,14 @@ namespace BackpackProject
             }
 
             var group = (from item in enumerable
-                        let region = GetRegion(item)
-                        group item by region into grouping
-                        select new { grouping.Key, items = grouping.Select(g => g) }).ToDictionary(e => e.Key, e => e.items);
-
-            var arr = new IEnumerable<IWeight>[count];
-            for (var i = 0; i < count; ++i)
+                         let region = GetRegion(item)
+                         group item by region into grouping
+                          select new { grouping.Key, items = grouping.Select(g => g) }).ToDictionary(e => e.Key, e => e.items);
+            for (int i = 0; i < count; ++i)
             {
-                if (group.ContainsKey(i))
-                {
-                    arr[i] = group[i];
-                }else
-                {
-                    arr[i] = Enumerable.Empty<IWeight>();
-                }
+                if (!group.ContainsKey(i)) group.Add(i, Enumerable.Empty<IWeight>());
             }
-            return arr;
+            return group;
         }
         static public IEnumerable<IEnumerable<IWeight>> GetGroup(IEnumerable<IWeight> enumerable, int countGroups)
         {
